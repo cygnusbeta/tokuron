@@ -7,6 +7,7 @@ clear
 function x = normrand1(mu,sigma)
     y = rand(); // [0,1)での一様乱数を選ぶ
     // ***未完***
+    x = sqrt(2 * sigma ** 2) * erfinv(2 * y - 1) + mu;
 endfunction
 
 // 以下、この関数を用いたテストを行う。

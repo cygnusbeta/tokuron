@@ -6,6 +6,13 @@ clear
 // 乱数の生成
 function x = normrand2(mu,sigma)
     // ***未完***
+    n_sum = 100.0
+    sum = 0.0
+    for k = 1:n_sum
+      sum = sum + rand()
+    end
+    y = sum / n_sum
+    x = 2.0 * sqrt(3.0 * n_sum) * sigma * (y - 1.0 / 2.0) + mu
 endfunction
 
 // 以下、この関数を用いたテストを行う。

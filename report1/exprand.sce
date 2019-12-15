@@ -6,6 +6,7 @@ clear
 function x = exprand(lambda)
     y = rand(); // [0,1)での一様乱数を選ぶ
     // ***未完***
+    x = log(1 - y) / (-lambda);
 endfunction
 
 // 以下、この関数を用いたテストを行う。
