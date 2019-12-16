@@ -7,7 +7,8 @@ xdel(winsid()); // すべてのグラフィックウィンドウを閉じる
 
 // 理論的なポアソン分布（比較のため）
 function p = poissondist(k,t,lambda)
-  p = 0; // *** とりあえず恒等的に 0 とおいている。正しい式で置き換えてください。
+  // p = 0; // *** とりあえず恒等的に 0 とおいている。正しい式で置き換えてください。
+  p = (lambda * t) ** k / factorial(k) * exp(-lambda * t)
 endfunction
 
 lambda = 1.0; // (WLOG)単位時間当たり発生頻度 (以降 lambda=1 を仮定)
