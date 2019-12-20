@@ -24,6 +24,8 @@ m = 1000; // 試行の数（並列に一挙に全試行を行う。）
 events = zeros(m,n*tmax);  // 各試行の、各時間刻みで、事象が生起したか否か。
 count = zeros(m,1);  // 事象発生回数のカウンタ
 told = zeros(m,1); // 前回事象が発生した時刻
+expP = zeros(n*tmax, 1);
+logexpP = zeros(n*tmax, 1);
 
 scf(0); clf;
 for i=1:n*tmax
@@ -37,6 +39,7 @@ for i=1:n*tmax
       tnew = i;  // 発生した区間の番号
       tgap = tnew-told(j);  // 長さ dt の区間数で数えた発生時間間隔
       // *** ここらで時間間隔の頻度を記憶すると良いでしょう。
+      expP(tgap) = expP(tgap) + 1
       told(j) = tnew;
     end
   end
@@ -65,6 +68,14 @@ for i=1:n*tmax
     end
   end
 end
+
+scf(2); clf;
+subplot(3,1,1);
+plot(expP,'ro');
+
+logexpP = log(expP)
+subplot(3,1,2)
+plot(logexpP,'ro')
 
 // 結果をコンソールへも表示
 disp(poissonP');
