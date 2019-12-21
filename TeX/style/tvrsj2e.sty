@@ -1,0 +1,402 @@
+\typeout{jvrsj.sty; Version 2.0 [20 Mar. 2002] for latex2e }
+\typeout{vrsjweb@intron.kz.tsukuba.ac.jp}
+
+%% 体裁
+\oddsidemargin-7.4mm
+\evensidemargin-7.4mm
+\topmargin-5.4mm
+\textwidth=170mm
+\textheight=253mm
+
+\headsep=4.75mm
+\footskip=7.5mm
+\unitlength=1mm
+\baselineskip=4.75mm
+\parindent=1zw
+\columnsep=10mm
+\fboxrule=.1mm
+\fboxsep=.5zw
+\parskip\z@
+
+\marginparwidth 20mm
+\marginparsep 5mm
+
+%%文字の大きさ
+\def\small{\@setsize\small{11pt}\ixpt\@ixpt}
+\def\Small{\@setsize\Small{4mm}\viiipt\@viiipt}
+\def\scriptsize{\@setsize\scriptsize{8pt}\viipt\@viipt}
+\def\tiny{\@setsize\tiny{6pt}\vpt\@vpt}
+\def\large{\@setsize\large{18pt}\xpt\@xpt}
+\def\Large{\@setsize\Large{18pt}\xivpt\@xivpt}
+\def\LARGE{\@setsize\LARGE{18pt}\xviipt\@xviipt}
+\def\huge{\@setsize\huge{25pt}\xxpt\@xxpt}
+\def\Huge{\@setsize\Huge{30pt}\xxvpt\@xxvpt}
+
+%%タイトル
+\def\jtitle#1{\gdef\@TITLE{#1}\gdef\@jtitle{#1}}
+\def\@TITLE{}
+\def\@jtitle{}
+
+\def\etitle#1{\gdef\@etitle{#1}}
+\def\@etitle{}
+\def\jauthor#1{\gdef\@jauthor{#1}}
+\def\@jauthor{}
+\def\@AUTHOR{}
+\def\eauthor#1{\gdef\@eauthor{#1}}
+\def\@eauthor{}
+
+\def\MONTH#1{\def\@tempa{#1}
+  \ifx \@tempa\empty \gdef\@MONTH{xx}
+  \else
+  \gdef\@MONTH{#1}
+\fi}
+
+\def\TYPE#1{\gdef\@TYPE{#1}\def\@tempa{#1}
+  \ifx \@tempa\empty \gdef\h@TYPE{基礎論文}
+  \else
+  \gdef\h@TYPE{#1}
+\fi}
+
+\def\VOL#1{\def\@tempa{#1}
+  \ifx \@tempa\empty \gdef\@VOL{xx}
+  \else
+  \gdef\@VOL{#1}
+\fi}
+
+\def\NO#1{\def\@tempa{#1}
+  \ifx \@tempa\empty \gdef\@NO{xx}
+  \else
+  \gdef\@NO{#1}
+\fi}
+
+\def\AUTHOR#1{\def\@tempa{#1}
+ \ifx \@tempa\empty \gdef\@AUTHOR{xx}
+ \else
+ \gdef\@AUTHOR{#1}
+\fi}
+
+\def\header#1{\def\@tempa{#1}
+  \ifx \@tempa\empty \gdef\@header{xx}
+  \else
+  \gdef\@header{#1}
+\fi}
+
+\def\@VOL{}
+\def\@TYPE{}
+%\def\h@TYPE{}
+\def\@YEAR{}
+\def\h@YEAR{}
+\def\@MONTH{}
+\def\@NO{}
+\def\@AUTHOR{}
+\def\@header{}
+
+\mark{{}{}}
+\def\@RH{\rlap{\smash{\raisebox{-1\headsep}{\rule{0.01mm}{10mm}\rule{10mm}{0.01mm}}}}}
+\def\@LH{\llap{\smash{\raisebox{-1\headsep}{\rule{10mm}{0.01mm}\rule{0.01mm}{10mm}}}}}
+\def\@RB{\rlap{\smash{\raisebox{1\footskip}{\rule[-10mm]{0.01mm}{10mm}\rule{10mm}{0.01mm}}}}}
+\def\@LB{\llap{\smash{\raisebox{1\footskip}{\rule{10mm}{0.01mm}\rule[-10mm]{0.01mm}{10mm}}}}}
+
+\newif\ifProof % for adjustment of the top and bottom of text
+\def\Small{\@setsize\Small{4mm}\viiipt\@viiipt}
+
+%タイトルページのヘッダ
+\def\ps@headpage{\let\@mkboth\@gobbletwo
+\def\@oddhead{\ifProof\@LH\else\fi%
+\rlap{\raisebox{-3mm}{\underline{\Large\h@TYPE}}}\hfill
+%\llap{\normalsize  TVRSJ\, Vol.\@VOL\, No.\@NO ,\,\@YEAR }
+ \ifProof\@RH\else\fi }
+\def\@evenhead{\ifProof\@LH\else\fi%
+ \hfill{\Small\bf \@header}\hfill
+ \ifProof\@RH\else\fi}
+}
+
+%本体ページのヘッダ
+\def\ps@bodypage{\let\@mkboth\@gobbletwo
+\def\@oddhead{\ifProof\@LH\else\fi%
+ \hfill{\Small\bf \@AUTHOR\, :\,\@TITLE }\hfill
+ \ifProof\@RH\else\fi }
+\def\@evenhead{\ifProof\@LH\else\fi%
+ \hfill{\Small\bf \@header}\hfill
+ \ifProof\@RH\else\fi }
+}
+
+\def\@oddfoot{\ifProof\@LB\else\fi%
+ \ifProof\@RB\else\fi}
+\def\@evenfoot{\ifProof\@LB\else\fi%
+ \ifProof\@RB\else\fi}
+
+%タイトルページ
+\newbox\abstractbox
+\newbox\keywordbox
+\setbox\abstractbox\hbox{}
+\setbox\keywordbox\hbox{}
+
+\def\abstract{\global\setbox\abstractbox=\hbox\bgroup%
+\begin{minipage}[t]{145mm}
+{\small\baselineskip=2mm\bf
+{\normalsize\bf Abstract }\, --\hskip1zw}\small\bf\ignorespaces}
+\def\endabstract{\end{minipage}\egroup}
+
+\def\keyword{\global\setbox\keywordbox=\hbox\bgroup%
+\begin{minipage}[t]{145mm}
+{\small\baselineskip=16mm\bf
+{\normalsize\bf Keywords }\, :\hskip1zw}\small\bf\ignorespaces}
+\def\endkeyword{\end{minipage}\egroup}
+
+\def\p@thanks#1{ \footnotemark
+  \protected@xdef\@thanks{\@thanks
+    \protect{\noindent$\m@th^\thefootnote$~#1\protect\par}}}
+
+\def\maketitle{\par
+ \begingroup
+ \def\thefootnote{*\arabic{footnote}}
+ \def\
+ \let\footnotesize\scriptsize
+ \def\@makefnmark{\hbox
+ to 0pt{$^{\@thefnmark}$\hss}}
+ \twocolumn[\@maketitle]
+ \@thanks
+ \endgroup
+ \thispagestyle{headpage}
+ \setcounter{footnote}{0}
+ \let\maketitle\relax
+ \let\@maketitle\relax
+ \gdef\@thanks{}
+ \gdef\@jauthor{}
+ \gdef\@jtitle{}
+ \gdef\@eauthor{}
+ \gdef\@etitle{}
+\let\thanks\relax}
+\def\@maketitle{\newpage
+ \null
+ \vskip 2em \begin{center}
+ {\LARGE\bf \@jtitle \par} \vskip 1.0em
+{\Large \lineskip .5em
+\begin{tabular}[t]{c}\@jauthor
+ \end{tabular}\par}  \vskip 1.0em
+ {\large\bf \@etitle \par} \vskip .5em
+\setcounter{footnote}{0}
+{\large \lineskip .5em
+\begin{tabular}[t]{c}\@eauthor
+ \end{tabular}\par}\par
+\vskip 1em {\normalsize
+\usebox{\abstractbox}\hfill
+ \vskip 4.25mm
+\usebox{\keywordbox}
+ }\vskip 4.25mm
+%\vspace{\@ADJ}
+\end{center}
+% \par
+\vskip 1.0em}
+
+%2000年問題
+\newcount\year@cnt
+\def\YEAR#1{\def\@tempa{#1}
+ \ifx \@tempa\empty \year@cnt=2000\gdef\@YEAR{2000}\else
+  \year@cnt=#1\gdef\@YEAR{#1}\fi
+ \ifnum \year@cnt <100\relax \gdef\@YEAR{20#1} \else
+  \advance\year@cnt by-100\relax \fi
+ \gdef\h@YEAR{\the\year@cnt}
+}
+
+
+%セクション
+\def\section{\@startsection{section}{1}{\z@}
+ {0.5\baselineskip plus .5mm minus .5mm}
+ {.5\baselineskip plus .5mm minus .5mm}
+ {\centering\large\bf\relax }}
+\def\subsection{\@startsection{subsection}{2}{1zw}
+ {0.001\baselineskip plus .1mm minus .1mm}
+ {0.001\baselineskip plus .1mm minus .1mm}{\normalsize\bf\relax}}
+\def\subsubsection{\@startsection{subsubsection}{3}{1zw}
+  {0.001\baselineskip plus .1mm minus .1mm}{0.001\baselineskip plus .1mm minus .1mm}
+  {\normalsize\rm\cntrm}}
+\def\paragraph{\@startsection
+ {paragraph}{4}{\z@}{0.001\baselineskip plus .1mm}
+ {0.001\baselineskip plus .1mm}{\normalsize\rm\cntrm}}
+\def\subparagraph{\@startsection
+ {subparagraph}{4}{\parindent}{0.001\baselineskip plus .1mm}
+ {0.001\baselineskip plus .1mm}{\normalsize\rm\cntrm}}
+
+%付録
+\def\appendix{\par
+ \def\section{\@startsection {section}{1}{\z@}
+  {0.5\baselineskip plus.5mm minus.5mm}
+  {0.5\baselineskip plus.5mm minus.5mm}{\centering\large\bf}}
+ \section*{付録}
+  \def\section{\@startsection{section}{1}{1zw}
+   {0.0001\baselineskip plus.1mm minus.1mm}
+   {0.0001\baselineskip plus.1mm minus.1mm}{\normalsize\bf\relax}}
+ \setcounter{section}{0}
+ \setcounter{subsection}{0}
+ \setcounter{equation}{0}
+ \setcounter{figure}{0}
+ \setcounter{table}{0}
+ \def\theequation{\mbox{\rm A$\cdot$\arabic{equation}}}
+ \def\thefigure{A$\cdot$\,\@arabic\c@figure}
+ \def\thetable{A$\cdot$\,\@arabic\c@table}
+}
+
+
+%caption
+\newbox\@capnumbox
+\newbox\@tempboxb
+\newdimen\@abovecaptionskip
+\newdimen\@belowcaptionskip
+\newdimen\capwidth
+\newdimen\ecapwidth
+
+\renewenvironment{figure}
+{\capwidth=65mm \ecapwidth=65mm
+ \@abovecaptionskip=10pt\@belowcaptionskip\z@\@float{figure}}
+               {\end@float}
+
+\renewenvironment{figure*}
+{\capwidth=.66\textwidth \ecapwidth=.66\textwidth
+ \@abovecaptionskip=10pt\@belowcaptionskip\z@\@dblfloat{figure}}
+               {\end@dblfloat}
+
+\renewenvironment{table}
+{\capwidth=65mm\ecapwidth=65mm
+ \@abovecaptionskip\z@\@belowcaptionskip=3pt\@float{table}}
+               {\end@float}
+\renewenvironment{table*}
+{\capwidth=.66\textwidth\ecapwidth=.66\textwidth
+ \@abovecaptionskip\z@\@belowcaptionskip=3pt\@dblfloat{table}}
+               {\end@dblfloat}
+
+
+\def\HANG#1#2{\hangindent=#1\hangafter=#2\relax}
+\def\kintou#1#2{\@ifundefined{jintercharskip}%
+ {\makebox[#1]{\kanjiskip\z@ plus 1fill minus 1fill\xkanjiskip=\kanjiskip #2}}%
+ {\makebox[#1]{\jintercharskip=0pt plus 1fill minus 1fill
+ \jasciikanjiskip=\jintercharskip #2}}}
+
+\long\def\@caption#1[#2]#3{\par
+\begingroup
+ \@parboxrestore
+ \small
+ \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
+\endgroup}
+
+\long\def\@makecaption#1#2{\vskip\@abovecaptionskip
+\small\relax
+\setbox\@capnumbox\hbox{#1\hskip1zw\mbox{}}
+\setbox\@tempboxa\hbox{#1\hskip1zw #2}
+ \ifdim \wd\@tempboxa > \capwidth% hsize
+  \hfil\begin{minipage}[t]{\capwidth}%
+  \HANG{\wd\@capnumbox}{1}#1\hskip1zw #2%
+  \end{minipage}\vskip 0.5mm
+ \else
+  \setbox\@tempboxb\hbox{#2}
+   \ifdim \wd\@tempboxb < 5zw
+    \hbox to\hsize{\hfil#1\hskip1zw\kintou{5zw}{#2}\hfil}
+   \else
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}
+   \fi
+ \fi
+}
+
+\long\def\ecaption#1{\small\relax
+\setbox\@capnumbox\hbox{\csname fnum@e\@captype\endcsname\hskip1zw\mbox{}}
+\setbox\@tempboxa\hbox{\csname fnum@e\@captype\endcsname\hskip1zw #1}
+ \ifdim \wd\@tempboxa > \ecapwidth% \hsize
+  \hfil\begin{minipage}[t]{\ecapwidth}
+   \HANG{\wd\@capnumbox}{1}%
+   \csname fnum@e\@captype\endcsname\hskip1zw #1
+  \end{minipage}\par
+ \else
+  \hbox to\hsize{\hfil\box\@tempboxa\hfil}
+ \fi
+\vspace{\@belowcaptionskip}}
+
+\def\fnum@figure{図\thefigure }
+% \def\fnum@table{{\bf\sevgt\cntbf 表\thetable}}
+\def\fnum@table{表\thetable}
+
+\def\fnum@efigure{Fig.\,\thefigure}
+\def\fnum@etable{Table \thetable}
+
+\def\tableenv{\def\@setstrut{\setbox\strutbox=%
+ \hbox{\vrule \@height .72\baselineskip \@depth .28\baselineskip \@width\z@}}
+ \small\relax
+ \let\center=\Center}%% \ifphototype\let\tt=\sevtt\else\fi
+
+
+%参考文献
+\def\thebibliography#1{%
+ \def\subsection{\@startsection{subsection}{2}{\z@}
+  {1.5\baselineskip plus 1mm minus 0.5mm}{0.7125mm plus 1mm}{\centering\bf}}
+\subsection*{参考文献}
+\small\relax\baselineskip=3.75mm
+ \list{[\arabic{enumi}]}{\settowidth\labelwidth{亜亜}%
+  \leftmargin=3zw% \leftmargin\labelwidth \advance\leftmargin\labelsep
+  \labelsep=1zw
+  \usecounter{enumi}}
+ \itemsep=\z@\parskip=\z@
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy\clubpenalty-100\widowpenalty-100%% \clubpenalty4000\widowpenalty4000
+ \sfcode`\.=1000\relax}
+
+\def\endthebibliography{\endlist
+\par
+\vskip-\topsep
+\vskip-\partopsep
+\vskip-\parskip
+}
+
+%採択日
+\def\saitaku#1{
+\vskip 1mm{\small\bf\hfill (#1受付)}
+}
+
+%著者紹介
+\newenvironment{biography}{
+\vfil  \vskip3.25mm
+   \hfil {\large ［著\hskip 0.75mm 者\hskip 0.75mm 紹\hskip 0.75mm 介］}
+  \vskip1.25mm
+}
+
+\newdimen{\Kanjiwidth}
+\settowidth{\Kanjiwidth}{\small 亜}
+\long\def\profile#1#2#3#4{
+\normalsize\bf #1
+\if #2m
+ {\small\rm （正会員）}
+\else
+ \if #2s
+  {\small\rm （学生会員）}
+ \else
+  \if #2n
+   \relax
+  \else
+   \relax
+  \fi
+ \fi
+\fi
+\nopagebreak
+\vskip1.0mm
+\begin{minipage}[t]{17.5mm}%
+\def\@tempa{#3} \ifx \@tempa\empty
+% スマートな方法があったらどなたかご教示ください．
+%\leavevmode\lower17.5mm
+\vbox to 22mm{\hrule height .1mm
+\hbox to 17.0mm{\vrule width .1mm height 21.8mm%
+ \hss
+\vrule width .1mm height 21.8mm}%
+\hrule height .1mm}%
+\else
+{\protect \includegraphics*[width=17mm]{#3}}
+\fi
+\end{minipage}%
+ \hfill
+\vskip-24.0mm\hskip20.0mm
+\begin{minipage}[t]{18\Kanjiwidth}
+\hskip1\Kanjiwidth
+\small\rm #4\par
+\end{minipage}%
+\vskip5.0mm
+}
+
+\pagestyle{bodypage}

@@ -1,0 +1,88 @@
+\documentclass[a4paper,twoside]{jarticle}
+   \usepackage{style/tvrsj2e}
+   \usepackage[dvips]{graphicx}
+   \usepackage{style/listings,style/jlisting} %日本語のコメントアウトをする場合jlistingが必要
+
+%和文タイトル　論文のヘッダ部分にも出力される。
+\jtitle{
+    情報数理特論Ｉレポート2}
+
+%著者日本名
+\jauthor{}
+
+% ヘッダー
+\header{情報数理特論Ｉレポート2}
+
+%論文の種別に合わせる
+\TYPE{レポート}
+%\TYPE{基礎論文}
+%\TYPE{応用論文}
+%\TYPE{コンテンツ論文}
+%\TYPE{総説論文}
+%\TYPE{ショートペーパー}
+
+%ソースコードの表示に関する設定
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\begin{document}
+
+%maketitle は abstract と keyword の後に入れる。
+
+\maketitle
+
+\section{概要}
+選択作業(Erlang分布)において行った作業の内容(とその結果)を説明する。
+
+\section{行った作業と結果}
+
+\subsection{Erlang分布の確率変数を作成}\label{ss-erlang}
+まずkを幾つか試せるよう適当な配列k\_vを用意し、k(=1,5,10)回事象が発生するまでの時間を計測し、適当な変数erlangPにヒストグラムを格納した。それを規格化し、理論値とともにプロットした。
+
+結果としては、集計した分布と理論値はkが大きくなるにつれて合わなくなっていくような分布となった。$k$が比較的大きい場合($k=10$)においては、理論値は$\delta$関数により近い分布になっているものの、集計した分布はそうはなっていない。
+
+\subsection{Wikipediaの定義を追加}\label{ss-wiki}
+文献2の定義では集計した分布と理論値がkが大きくなるにつれて合わなくなっていったので、Wikipedia\cite{wiki-erlang}の定義を追加してみた。
+
+結果は文献2の定義よりはフィットした。
+
+\subsection{片対数グラフを追加}\label{ss-log}
+Wikipedia\cite{wiki-erlang}の定義によれば確率密度関数は$t >0$に対して
+\begin{equation}
+  f(t;k,\lambda)=\frac{\lambda^{k}}{(k-1)!}t^{k-1}e^{-\lambda t}
+\end{equation}
+である。これより
+\begin{equation}
+  log{\left(\frac{f(t;k,\lambda)}{t^{k-1}}\right)} = -\lambda t+log{\left(\frac{\lambda^{k}}{(k-1)!}\right)}
+\end{equation}
+であるから、集計した分布$f(t;k,\lambda)$に対して$\frac{f(t;k,\lambda)}{t^{k-1}}$の片対数グラフをとれば、グラフが傾き$-\lambda$、切片$log{\left(\frac{\lambda^{k}}{(k-1)!}\right)}$の直線になることが期待される。これをプロットしてみた。
+
+結果は$k=1$(指数分布と一致)では片対数グラフはほぼ直線となりほぼ期待された結果となったが、$k=5,10$のときは(\ref{ss-wiki}ではフィットしたかのように見えた分布も)直線にはならなかった。
+
+\section{総評}
+そもそもなぜ\ref{ss-erlang}で文献2の定義で集計した分布と理論値が k が大きくなるにつれて合わなくなっていったのか、また、Wikipedia\cite{wiki-erlang}の定義とも\ref{ss-log}の片対数グラフでは合わなかったのか、は結局よくわからなかった。謎である。
+
+\begin{thebibliography}{99}
+\bibitem{wiki-erlang}
+アーラン分布 - Wikipedia
+https://ja.wikipedia.org/wiki/アーラン分布
+
+\end{thebibliography}
+
+\end{document}
