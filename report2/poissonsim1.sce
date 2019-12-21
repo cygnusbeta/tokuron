@@ -11,12 +11,16 @@ function p = poissondist(k,t,lambda)
   p = (lambda * t) ** k / factorial(k) * exp(-lambda * t)
 endfunction
 
-function p2 = expP_theory(t)
+function p2 = expP_theory(t, lambda)
   p2 = lambda * exp(-lambda * t)
 endfunction
 
-function p3 = logexpP_theory(t)
+function p3 = logexpP_theory(t, lambda)
   p3 = -lambda * t + log(lambda)
+endfunction
+
+function p4 = erlangP_theory(k, t, lambda)
+  p4 = (k * lambda) ** k * t ** (k - 1) / factorial(k - 1) * exp(-k * lambda * t)
 endfunction
 
 lambda = 1.0; // (WLOG)単位時間当たり発生頻度 (以降 lambda=1 を仮定)
@@ -49,7 +53,7 @@ expP = zeros(n*tmax, 1);
 logexpP = zeros(n*tmax, 1);
 // logexpP_theory = zeros(n*tmax, 1);
 erlangP = zeros(k_num, 20*n*tmax);
-// erlangP_theory = zeros(k_num, 20*n*tmax);
+erlangP_theory_v = zeros(k_num, 20*n*tmax);
 
 scf(0); clf;
 for i=1:n*tmax
@@ -115,28 +119,34 @@ end
 expP(:) = expP(:)/sum(expP(:))/dt;
 
 t_v_2ntmax = [1:n*tmax]*dt
-disp(t_v_2ntmax)
+// disp(t_v_2ntmax)
 
 scf(2); clf;
 subplot(3,1,1);
 plot(t_v_2ntmax,expP,'ro');
-plot(t_v_2ntmax,expP_theory(t_v_2ntmax),'bo');
-// disp(expP_theory)
+plot(t_v_2ntmax,expP_theory(t_v_2ntmax, lambda),'bo');
 title('指数分布');
 
 logexpP = log(expP)
 subplot(3,1,2)
 plot(t_v_2ntmax,logexpP,'ro');
-plot(t_v_2ntmax,logexpP_theory(t_v_2ntmax),'bo');
+plot(t_v_2ntmax,logexpP_theory(t_v_2ntmax, lambda),'bo');
 title('指数分布 (片対数グラフ)');
 
-// scf(3); clf;
-// for l = 1:k_num
-//    subplot(k_num,1,l);
-//    plot(erlangP(l, :),'ro');
-//    plotlabel = 'Erlang 分布 (k = ' + string(k_(l)) + ')';
-//    title(plotlabel);
-// end
+t_v_20ntmax = [1:20*n*tmax]*dt
+
+scf(3); clf;
+for l = 1:k_num
+   subplot(k_num,1,l);
+   plot(t_v_20ntmax,erlangP(l, :),'ro');
+
+   // for t=t_v_20ntmax
+   //    erlangP_theory_v(k_(l), t)erlangP_theory(k_(l), t, lambda)
+   // end
+   // plot(t_v_20ntmax,erlangP_theory(k_(l), t_v_20ntmax, lambda),'bo');
+   plotlabel = 'Erlang 分布 (k = ' + string(k_(l)) + ')';
+   title(plotlabel);
+end
 
 // 結果をコンソールへも表示
 // disp(poissonP');
