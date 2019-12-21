@@ -69,9 +69,9 @@ Wikipedia\cite{wiki-erlang}の定義によれば確率密度関数は$t >0$に�
 \end{equation}
 である。これより
 \begin{equation}
-  log{\left(\frac{f(t;k,\lambda)}{t^{k-1}}\right)} = -\lambda t+log{\left(\frac{\lambda^{k}}{(k-1)!}\right)}
+  \log{\left(\frac{f(t;k,\lambda)}{t^{k-1}}\right)} = -\lambda t+\log{\left(\frac{\lambda^{k}}{(k-1)!}\right)}
 \end{equation}
-であるから、集計した分布$f(t;k,\lambda)$に対して$\frac{f(t;k,\lambda)}{t^{k-1}}$の片対数グラフをとれば、グラフが傾き$-\lambda$、切片$log{\left(\frac{\lambda^{k}}{(k-1)!}\right)}$の直線になることが期待される。これをプロットしてみた。
+であるから、集計した分布$f(t;k,\lambda)$に対して$\frac{f(t;k,\lambda)}{t^{k-1}}$の片対数グラフをとれば、グラフが傾き$-\lambda$、切片$\log{\left(\frac{\lambda^{k}}{(k-1)!}\right)}$の直線になることが期待される。これをプロットしてみた。
 
 結果は$k=1$(指数分布と一致)では片対数グラフはほぼ直線となりほぼ期待された結果となったが、$k=5,10$のときは(\ref{ss-wiki}ではフィットしたかのように見えた分布も)直線にはならなかった。
 
