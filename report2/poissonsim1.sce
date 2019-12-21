@@ -11,20 +11,24 @@ function p = poissondist(k,t,lambda)
   p = (lambda * t) ** k / factorial(k) * exp(-lambda * t)
 endfunction
 
-function p2 = expP_theory(t, lambda)
-  p2 = lambda * exp(-lambda * t)
+function p = expP_theory(t, lambda)
+  p = lambda * exp(-lambda * t)
 endfunction
 
-function p3 = logexpP_theory(t, lambda)
-  p3 = -lambda * t + log(lambda)
+function p = logexpP_theory(t, lambda)
+  p = -lambda * t + log(lambda)
 endfunction
 
-function p4 = erlangP_theory(k, t, lambda)
-  p4 = (k * lambda) ** k * t ** (k - 1) / factorial(k - 1) .* exp(-k * lambda * t)
+function p = erlangP_theory(k, t, lambda)
+  p = (k * lambda) ** k * t ** (k - 1) / factorial(k - 1) .* exp(-k * lambda * t)
 endfunction
 
-function p4 = erlangP_theory_wikipedia(k, t, lambda)
-  p4 = lambda ** k / factorial(k - 1) * t ** (k - 1) .* exp(-lambda * t)
+function p = erlangP_theory_wikipedia(k, t, lambda)
+  p = lambda ** k / factorial(k - 1) * t ** (k - 1) .* exp(-lambda * t)
+endfunction
+
+function p = logerlangP_theory_wikipedia(k, t, lambda)
+  p =  -lambda * t + log(lambda ** k / factorial(k - 1))
 endfunction
 
 lambda = 1.0; // (WLOG)単位時間当たり発生頻度 (以降 lambda=1 を仮定)
@@ -40,7 +44,7 @@ m = 10000; // 試行の数（並列に一挙に全試行を行う。）
 events = zeros(m,n*tmax);  // 各試行の、各時間刻みで、事象が生起したか否か。
 count = zeros(m,1);  // 事象発生回数のカウンタ
 told = zeros(m,1); // 前回事象が発生した時刻
-erlangP_len = 10*n*tmax
+erlangP_len = 6*n*tmax
 
 k_num = 3
 k_v = zeros(k_num, 1)
@@ -82,16 +86,16 @@ for i=1:n*tmax
 
       // disp(count_k)
       for l = 1:k_num
-         count_k(l) = count_k(l) + 1
-         tgap_k_times(l) = tgap_k_times(l) + tgap
-         if (count_k(l) == k_v(l)) then
-            // disp(tgap_k_times(l))
-            if (tgap_k_times(l) <= erlangP_len)
-              erlangP(tgap_k_times(l), l) = erlangP(tgap_k_times(l), l) + 1
-            end
-            count_k(l) = 0
-            tgap_k_times(l) = 0
-         end
+        count_k(l) = count_k(l) + 1
+        tgap_k_times(l) = tgap_k_times(l) + tgap
+        if (count_k(l) == k_v(l)) then
+          // disp(tgap_k_times(l))
+          if (tgap_k_times(l) <= erlangP_len)
+            erlangP(tgap_k_times(l), l) = erlangP(tgap_k_times(l), l) + 1
+          end
+          count_k(l) = 0
+          tgap_k_times(l) = 0
+        end
       end
 
       told(j) = tnew;
@@ -133,6 +137,7 @@ subplot(3,1,1);
 plot(t_v_2ntmax,expP,'ro');
 plot(t_v_2ntmax,expP_theory(t_v_2ntmax, lambda),'bo');
 title('指数分布');
+xlabel('t'); ylabel('P(t)');
 
 logexpP = log(expP)
 subplot(3,1,2)
@@ -141,33 +146,50 @@ plot(t_v_2ntmax,logexpP,'ro');
 // disp('logexpP_theory(t_v_2ntmax, lambda)', logexpP_theory(t_v_2ntmax, lambda))
 plot(t_v_2ntmax,logexpP_theory(t_v_2ntmax, lambda),'bo');
 title('指数分布 (片対数グラフ)');
+xlabel('t'); ylabel('log(P(t))');
 
 t_v_20ntmax = [1:erlangP_len]*dt
 
 scf(3); clf;
 for l = 1:k_num
-   subplot(k_num,1,l);
-   erlangP_l = zeros(erlangP_len, 1)
-   erlangP(:, l) = erlangP(:, l) / sum(erlangP(:, l)) / dt
-   erlangP_l = erlangP(:, l)
-   // disp(erlangP_l)
-   plot(t_v_20ntmax,erlangP_l,'ro');
+  subplot(k_num,1,l);
+  erlangP_l = zeros(erlangP_len, 1)
+  erlangP(:, l) = erlangP(:, l) / sum(erlangP(:, l)) / dt
+  erlangP_l = erlangP(:, l)
+  // disp(erlangP_l)
+  plot(t_v_20ntmax,erlangP_l,'ro');
+  // disp('l', l)
+  // disp('k_v(l)', k_v(l))
+  // disp('lambda', lambda)
+  // disp('t_v_20ntmax', t_v_20ntmax)
+  plot(t_v_20ntmax, erlangP_theory(k_v(l), t_v_20ntmax, lambda),'bo');
+  plot(t_v_20ntmax, erlangP_theory_wikipedia(k_v(l), t_v_20ntmax, lambda),'go');
+  plotlabel = 'Erlang 分布 (k = ' + string(k_v(l)) + ')';
+  title(plotlabel);
+  xlabel('t'); ylabel('P(t)');
+  if (l == 1)
+    legend(['集計した分布','文献 [2] の定義による理論値','Wikipedia の定義による理論値'], pos='in_upper_right');
+  end
+end
 
-   // for t = t_v_20ntmax
-   //    erlangP_theory_v(l, t / dt) = erlangP_theory(k_v(l), t, lambda)
-   // end
-   // plot(t_v_20ntmax,erlangP_theory_v(l, :),'bo');
-   // disp('l', l)
-   // disp('k_v(l)', k_v(l))
-   // disp('lambda', lambda)
-   // disp('t_v_20ntmax', t_v_20ntmax)
-   plot(t_v_20ntmax, erlangP_theory(k_v(l), t_v_20ntmax, lambda),'bo');
-   plot(t_v_20ntmax, erlangP_theory_wikipedia(k_v(l), t_v_20ntmax, lambda),'go');
-   plotlabel = 'Erlang 分布 (k = ' + string(k_v(l)) + ')';
-   title(plotlabel);
-   if (l == 1)
-     legend(['集計した分布','文献 [2] の定義による理論値','Wikipedia の定義による理論値'], pos='in_upper_right');
-   end
+logerlangP = zeros(erlangP_len, k_num)
+
+scf(4); clf;
+for l = 1:k_num
+  subplot(k_num,1,l);
+  for t = 1:erlangP_len
+    logerlangP(t, l) = log(erlangP(t, l) / t ** (k_v(l) - 1))
+  end
+  logerlangP_l = zeros(erlangP_len, 1)
+  logerlangP_l = logerlangP(:, l)
+  plot(t_v_20ntmax, logerlangP_l,'ro');
+  plot(t_v_20ntmax, logerlangP_theory_wikipedia(k_v(l), t_v_20ntmax, lambda),'go');
+  plotlabel = 'Erlang 分布 (f(t)/(t^(k-1)) の片対数グラフ, k = ' + string(k_v(l)) + ')';
+  title(plotlabel);
+  xlabel('t'); ylabel('log(P(t)/t^(k-1))');
+  if (l == 1)
+    legend(['集計した分布','Wikipedia の定義による理論値'], pos='in_upper_right');
+  end
 end
 
 // 結果をコンソールへも表示
