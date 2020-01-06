@@ -23,6 +23,7 @@ mu=0.5; // 乱数の期待値
 m=1000; // 図示する際の横軸範囲の分割数
 dt=zeros(1,n); // 生起時間の間隔を保存するベクトル
 count=zeros(1,m); // 計数関数 N(t) のこと
+count_t=zeros(1,m); // N(t)/t
 
 // 選択した分布での乱数を発生し、生起間隔の時間とする。
 dt = myrand(n,1,mu);
@@ -55,6 +56,8 @@ for _m=1:m
       break
     end
   end
+
+  count_t(_m) = count(_m) / _dt(_m)
 end
 // disp('count')
 // disp(count)
@@ -74,8 +77,16 @@ xlabel('t'); ylabel('N(t)');
 // a=gca();
 // a.data_bounds=[0 -0.002;tmax 1.002];
 
-subplot(2,1,2);
+count_t_theory = ones(1,m) / mu
+disp('count_t_theory')
+disp(count_t_theory)
 
+subplot(2,1,2);
+plot(_dt, count_t);
+plot(_dt, count_t_theory,'r-');
+xlabel('t'); ylabel('N(t) / t');
+a=gca();
+a.data_bounds=[0 -0.002;tmax max(2.002, max(count_t))];
 
 
 
