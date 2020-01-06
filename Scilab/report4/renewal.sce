@@ -18,7 +18,7 @@ function p = myrand(n,choice,mu)
   end
 endfunction
 
-n=10; // 発生する乱数の個数
+n=500; // 発生する乱数の個数
 mu=0.5; // 乱数の期待値
 m=1000; // 図示する際の横軸範囲の分割数
 dt=zeros(1,n); // 生起時間の間隔を保存するベクトル
