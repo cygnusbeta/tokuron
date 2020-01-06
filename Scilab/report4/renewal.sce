@@ -59,10 +59,15 @@ end
 // disp('count')
 // disp(count)
 
+function y = t_mu(t, mu)
+  y = t / mu
+endfunction
+
 scf(0); clf;
 
 subplot(2,1,1);
 plot(_dt,count);
+plot(_dt, t_mu(_dt, mu),'r-');
 xlabel('t'); ylabel('N(t)');
 // plotlabel = '試行 ' + string(j);
 // title(plotlabel);
