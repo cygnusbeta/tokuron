@@ -86,7 +86,7 @@ plot(_dt, count_t);
 plot(_dt, count_t_theory,'r-');
 xlabel('t'); ylabel('N(t) / t');
 a=gca();
-a.data_bounds=[0 -0.002;tmax max(2.002, max(count_t))];
+a.data_bounds=[0 -0.002; tmax max(1 / mu + 0.002, max(count_t))];
 
 
 
