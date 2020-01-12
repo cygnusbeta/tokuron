@@ -1,0 +1,82 @@
+\documentclass[a4paper,twoside]{jarticle}
+   \usepackage{style/tvrsj2e}
+   \usepackage[dvips]{graphicx}
+   \usepackage{style/listings,style/jlisting} %日本語のコメントアウトをする場合jlistingが必要
+   \usepackage{bm}
+
+%和文タイトル　論文のヘッダ部分にも出力される。
+\jtitle{
+    情報数理特論Ｉレポート3}
+
+%著者日本名
+\jauthor{}
+
+% ヘッダー
+\header{情報数理特論Ｉレポート3}
+
+%論文の種別に合わせる
+\TYPE{レポート}
+%\TYPE{基礎論文}
+%\TYPE{応用論文}
+%\TYPE{コンテンツ論文}
+%\TYPE{総説論文}
+%\TYPE{ショートペーパー}
+
+%ソースコードの表示に関する設定
+\lstset{
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\begin{document}
+
+%maketitle は abstract と keyword の後に入れる。
+
+\maketitle
+
+\section{必須作業2の説明}\label{sec1}
+
+固有値 1、成分が全て同符号な左固有ベクトルは 12 行目で、L1ノルムで規格化した左固有ベクトルは
+
+\[
+  \bm{\textrm{evec}} = \left(
+    \begin{array}{c}
+      0. \\
+      0. \\
+      0. \\
+      2.232D-16 \\
+      0. \\
+      0.1119403 \\
+      0.2238806 \\
+      0.079602 \\
+      0.079602 \\
+      0.079602 \\
+      0.0924724 \\
+      0.0184945 \\
+      0.1294614 \\
+      0.1849448
+    \end{array}
+  \right)^{\mathrm{T}}
+\]
+
+これと結果を色を揃えてプロットした。状態1-5については確率0に収束し、固有ベクトルの計算結果と一致した。状態6-7, 11-14については、固有ベクトルの計算結果に同じ定数倍をかけたような値をとった。Markov 連鎖全体が既約ではないためと思われる。状態8-10についてはそもそも収束せず、周期3な状態となった。
+
+\section{Markov 連鎖全体を既約になるようにしたとき}
+
+\ref{sec1}で分けた4つのグループでは、どれもが新しい p の固有値に素早く収束している。ただ、$d=0.85$が大きすぎるためなのか、各状態では大きく固有値や定常での値が変わっている状態も存在する。これにより例えば状態11-14は定常での遷移確率の順序が多少入れ替わっている。
+
+\end{document}
